@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+  #field {
+    width: 200px;
+    height: 450px;
+    border: 10px groove black;
+    background-color: #00FF00;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  
+  #ball {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -20px;
+    margin-top: -20px;
+    width: 25px;
+    height:25px;
+  }
+  @keyframes spin1 {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+  }
+ 
+  </style>
+</head>
+
+<body style="height:2000px">
+  <div id="field">
+  <img src="https://js.cx/clipart/ball.svg"; id="ball"></div>
+  
+  <script>
+    let ballElem = document.getElementById('ball');
+    let fieldElem = document.getElementById('field');
+    
+    fieldElem.addEventListener('click', fieldClick);
+    
+    function fieldClick (event) {
+      const self = this;
+      
+      // field coords
+      let fieldCoords = self.getBoundingClientRect();
+
+      // Left point click and top point click in field
+      let left = event.clientX - fieldCoords.left + self.clientLeft;
+      let top = event.clientY - fieldCoords.top + self.clientTop;
+      
+      // Check ball under overflow
+      left = left > 33  ? left < 208 ? left : 208 : 33
+      top = top > 33  ? top < 458 ? top : 458 : 33
+      
+      // Current element position 
+      let crrentTop = ballElem.offsetTop + ballElem.clientHeight;
+      let currentLeft = ballElem.offsetLeft + ballElem.clientWidth;
+
+      // New positionpoint for ball
+      let nextTop = top - crrentTop - fieldCoords.top;
+      let nextLeft = left - currentLeft - fieldCoords.top;
+
+      ballElem.style.transform = `translate(${nextLeft}px, ${nextTop}px)`;
+      ballElem.style.transition = 'transform 1s';
+    }
+  </script>
+</body>
+</html>
